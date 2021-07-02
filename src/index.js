@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import ToDoList from './ToDoList';
 
+import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+     <ToDoList />
   </React.StrictMode>,
   document.getElementById('root')
 );
