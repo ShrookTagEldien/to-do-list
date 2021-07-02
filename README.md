@@ -6,7 +6,6 @@ user can delete task by click on x
 ![ ](images/home.PNG)
 ---------------------------
 user can add new task
-![ ](images/addTask.png)
-----------------------------
-user can assign task as finshed
+![ ](images/addTask.PNG)
+
 
