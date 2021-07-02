@@ -24,13 +24,31 @@ class ToDoList extends Component{
             tasks:[]
         }
     }
+    onLogoutHandler = () => {
+        localStorage.clear();
+        this.props.history.push('/sign-in')
+    }
     async componentDidMount(){
-        let res = await axios.get("http://localhost:8000/api/list");
+        let data ={
+            user:JSON.parse(localStorage.getItem("userData")).id
+
+        }
+        let res = await axios.post("http://localhost:8000/api/list",data);
         console.log(res);
         this.setState({tasks:res.data});
     }
     render(){
+        const user = JSON.parse(localStorage.getItem("userData"));
         return(<div className='container mt-4'>
+            <nav className="navbar navbar-dark bg-dark">
+                <h2 className='px-3' style={{color:'white'}}>Welcome {user.name} </h2>
+                <button
+              className="btn btn-light text-right mx-4"
+              onClick={this.onLogoutHandler}
+            >
+              Logout
+            </button>
+            </nav>
             <div className='d-flex justify-content-end'>
                 <AddTask />
             </div>
@@ -205,7 +223,8 @@ class AddTask extends Component{
             console.log("no error");
             let data ={
                 title:this.state.title,
-                description:this.state. description
+                description:this.state.description,
+                user:JSON.parse(localStorage.getItem("userData")).id
 
             }
             let res = await axios.post("http://localhost:8000/api/createTask", data, {

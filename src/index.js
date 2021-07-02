@@ -9,7 +9,8 @@ import ToDoList from './ToDoList';
 import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 ReactDOM.render(
   <React.StrictMode>
-     <ToDoList />
+     {/* <ToDoList /> */}
+     <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
