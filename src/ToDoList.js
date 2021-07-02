@@ -98,12 +98,95 @@ class Task extends Component{
             <div className='d-flex justify-content-between'>
             <h3 style={{display:'inline-block'}}>{this.props.task.title}</h3> 
             <div style={{display:'inline-block'}}>
-                {this.props.task.status=="notFinished" && <i className="bi bi-check-square ml-2" onClick={()=>this.taskIsDone(this.props.task.id)}></i>} <i className="bi bi-x-circle ml-2" onClick={()=>this.taskDelete(this.props.task.id)}></i>
+                {this.props.task.status=="notFinished" && <i className="bi bi-check-square ml-2" onClick={()=>this.taskIsDone(this.props.task.id)}></i>} {this.props.task.status=="notFinished" && <EditTask task={this.props.task}/>  }<i className="bi bi-x-circle ml-2" onClick={()=>this.taskDelete(this.props.task.id)}></i>
                 </div>
             </div>
            
             <p>{this.props.task.description}</p>
             </div>)
+    }
+
+}
+
+class EditTask extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            title:this.props.task.title,
+            description:this.props.task.description,
+            errors:[]
+        }
+    }
+    editTask=async()=>{
+        console.log("hereeeeeeee");
+        if (this.validation() === null){
+            console.log("no error");
+            let data ={
+                id:this.props.task.id,
+                title:this.state.title,
+                description:this.state. description
+
+            }
+            let res = await axios.post("http://localhost:8000/api/editTask", data, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT",
+                    "Access-Control-Allow-Headers": "Content-Type",
+
+                }
+            });
+            console.log(res);
+            window.location.reload()
+            
+        }
+        else
+        {
+            console.log("errors");
+        }
+
+    }
+    validation=()=>{
+        const errors = {};
+        if(this.state.title.trim() == "")
+        {
+            errors.title="Title is required"
+        }
+        if(this.state.description.trim() == "")
+        {
+            errors.description="Description is required"
+        }
+        console.log("inside ")
+        console.log(Object.keys(errors).length);
+        this.setState({ errors });
+        return Object.keys(errors).length === 0 ? null : errors;
+
+
+    }
+
+    render(){
+        return(
+        <Popup trigger={<i class="bi bi-pencil-square ml-2"></i>}
+        modal
+        contentStyle={contentStyle} >
+            <div>
+                <h3>Edit Task</h3>
+                <div>
+                    <label className="formLabel mr-5 pr-5" style={{ display: 'inline-block', width: '20%' }} htmlFor='title'>Title</label>
+                    <input type="text" className="formControl p-1" style={{ borderRadius: '4px', display: 'inline-block' }} placeholder="Task title .." id='title' value={this.state.title} onChange={(e)=>this.setState({ title: e.currentTarget.value })} />
+                    {this.state.errors.title && (<div className="alert alert-danger" role="alert">{this.state.errors.title}</div>)}
+                    <br />
+                    {/* <input type="hidden" name="shortStory" value={this.props.shortStory} /> */}
+                    <div className='d-flex justify-content-between mt-2'>
+                        <label className="formLabel" style={{ display: 'inline-block' }} htmlFor='description' >Description</label>
+                        <textarea className="formControl" rows="4" style={{ borderRadius: '4px', width: "80%", display: 'inline-block' }} id='description' value={this.state.description} onChange={(e)=>this.setState({ description: e.currentTarget.value })}/>
+                        {this.state.errors.description && (<div className="alert alert-danger" role="alert">{this.state.errors.description}</div>)}
+                    </div>
+                    <div className='d-flex justify-content-end'>
+                    <button className="p-1 btn" style={{ backgroundColor: '#F8A488', borderColor: '#F8A488' }} onClick={this.editTask}>Edit</button>
+                    </div>
+                </div>
+            </div>
+        </Popup>)
     }
 
 }
