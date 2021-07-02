@@ -21,7 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::post('/createTask', "TaskController@create");
-Route::get('/list', "TaskController@index");
+Route::post('/list', "TaskController@index");
 Route::post('/setStatus', "TaskController@setStatus");
 Route::post('/deleteTask', "TaskController@deleteTask");
 Route::post('/editTask', "TaskController@editTask");
+Route::post("user-signup", "UserController@userSignUp");
+Route::post("user-login", "UserController@userLogin");
+Route::get("user/{email}", "UserController@userDetail");

@@ -10,13 +10,13 @@ class TaskController extends Controller
     //
     public function create(Request $request)
     {
-        $data=array('title'=>$request->title,"description"=>$request->description,"status"=>'notFinished');
+        $data=array('title'=>$request->title,"description"=>$request->description,"status"=>'notFinished','user_id'=>$request->user);
         DB::table('tasks')->insert($data);
         return $request->all();
     }
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = DB::select('select * from tasks');
+        $tasks = DB::table('tasks')->where('user_id', $request->user)->get();
         return $tasks;
     }
     public function setStatus(Request $request)
