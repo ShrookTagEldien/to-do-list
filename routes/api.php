@@ -24,3 +24,4 @@ Route::post('/createTask', "TaskController@create");
 Route::get('/list', "TaskController@index");
 Route::post('/setStatus', "TaskController@setStatus");
 Route::post('/deleteTask', "TaskController@deleteTask");
+Route::post('/editTask', "TaskController@editTask");

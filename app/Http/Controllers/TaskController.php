@@ -33,4 +33,11 @@ class TaskController extends Controller
         ->delete();
         return DB::select('select * from tasks');
     }
+    public function editTask(Request $request)
+    {
+        DB::table('tasks')
+            ->where('id', $request->id)
+            ->update(['title' => $request->title,'description'=>$request->description]);
+        return DB::select('select * from tasks');
+    }
 }
